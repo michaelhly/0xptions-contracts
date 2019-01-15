@@ -1,0 +1,7 @@
+{
+  "name": "0xptions-contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/michaelhly/0xptions-contracts.git",
+  "license": "MIT"
+}
