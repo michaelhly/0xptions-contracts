@@ -6,7 +6,7 @@ const HDWalletProvider = require("truffle-hdwallet-provider");
 
 const infura = network => () => {
   return new HDWalletProvider(
-    process.env.RINKEBY_PRIVATE_KEY,
+    process.env.MNEMONIC,
     `https://${network}.infura.io/${process.env.INFURA_API_KEY}`
   );
 };

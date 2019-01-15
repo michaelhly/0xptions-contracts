@@ -1,4 +1,4 @@
-const OptionFactory = require("OptionFactory");
+const OptionFactory = artifacts.require("OptionFactory");
 
 module.exports = function(deployer) {
   deployer.then(async () => {
