@@ -13,7 +13,6 @@ contract OptionFactory {
     );
 
     struct OptionMarket {
-        address market;
         uint256 strike;
         uint256 expiry;
     }
@@ -64,7 +63,6 @@ contract OptionFactory {
         uint256 expiry
     ) internal {
         OptionMarket memory optionMarket = OptionMarket(
-            newMarket,
             strike,
             expiry
         );
