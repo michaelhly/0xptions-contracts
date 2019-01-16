@@ -50,7 +50,6 @@ contract OptionFactory {
             _description, 
             _extraInfo
         );
-        
         saveMarket(
             _newMarket,
             _strike,
