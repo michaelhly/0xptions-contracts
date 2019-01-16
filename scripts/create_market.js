@@ -7,8 +7,9 @@ const provider = new HDWalletProvider(
 const Web3 = require("web3");
 const web3 = new Web3(provider);
 
-const OptionFactory = require("../build/contracts/OptionFactory.json");
-const OptionFactoryAddress = OptionFactory.networks["4"].address;
+const OptionsRegistry = require("../build/contracts/OptionsRegistry.json");
+const OptionsRegistryAddress = OptionsRegistry.networks["4"].address;
+console.log(OptionsRegistryAddress);
 const AugurContracts = require("augur-core-abi");
 const AugurAddresses = AugurContracts.addresses["4"];
 
@@ -42,18 +43,18 @@ const main = async () => {
     repAddress
   );
 
-  // await REP.methods.faucet(0).send({ from: myAddress });
+  await REP.methods.faucet(0).send({ from: myAddress });
   await REP.methods
-    .transfer(OptionFactoryAddress, noShowBond)
+    .transfer(OptionsRegistryAddress, noShowBond)
     .send({ from: myAddress });
 
   const FactoryInstance = new web3.eth.Contract(
-    OptionFactory.abi,
-    OptionFactoryAddress
+    OptionsRegistry.abi,
+    OptionsRegistryAddress
   );
 
   const allowance = await REP.methods
-    .allowance(OptionFactoryAddress, AugurAddresses.Universe)
+    .allowance(OptionsRegistryAddress, AugurAddresses.Universe)
     .call();
 
   if (parseInt(allowance) === 0) {
