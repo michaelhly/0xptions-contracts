@@ -42,7 +42,7 @@ const main = async () => {
     repAddress
   );
 
-  // await REP.methods.faucet(0).send({ from: myAddress });
+  await REP.methods.faucet(0).send({ from: myAddress });
   await REP.methods
     .transfer(OptionFactoryAddress, noShowBond)
     .send({ from: myAddress });
