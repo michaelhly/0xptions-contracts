@@ -12,14 +12,6 @@ const infura = network => () => {
 };
 
 module.exports = {
-  mocha: {
-    useColors: true,
-    reporter: "eth-gas-reporter",
-    reporterOptions: {
-      currency: "USD",
-      gasPrice: 21
-    }
-  },
   solc: {
     optimizer: {
       enabled: true,
@@ -29,8 +21,7 @@ module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      port: process.env.JSON_RPC_PORT || 8545,
-      gas: 8000000,
+      port: 8545,
       network_id: "*"
     },
     mainnet: {
