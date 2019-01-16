@@ -42,27 +42,25 @@ const main = async () => {
     repAddress
   );
 
-  /*
-  await REP.methods.faucet(0).send({ from: myAddress });
+  // await REP.methods.faucet(0).send({ from: myAddress });
   await REP.methods
     .transfer(OptionFactoryAddress, noShowBond)
     .send({ from: myAddress });
-  */
 
   const FactoryInstance = new web3.eth.Contract(
     OptionFactory.abi,
     OptionFactoryAddress
   );
 
-  /*
-  await FactoryInstance.methods
-    .approveUniverse(AugurAddresses.Universe)
-    .send({ from: myAddress });
-  */
-
   const allowance = await REP.methods
     .allowance(OptionFactoryAddress, AugurAddresses.Universe)
     .call();
+
+  if (parseInt(allowance) === 0) {
+    await FactoryInstance.methods
+      .approveUniverse(AugurAddresses.Universe)
+      .send({ from: myAddress });
+  }
   console.log(allowance);
 
   const currentBlock = await web3.eth.getBlockNumber();
