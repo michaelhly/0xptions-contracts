@@ -12,7 +12,15 @@ Compile contracts
 yarn truffle compile
 ```
 
-Get OptionShares on Rinkeby
+Set environment variables
+
+```bash
+MNEMONIC=...
+INFURA_API_KEY=...
+WALLET=...
+```
+
+Get OptionShares on Rinkeby (make sure you have at least 0.2 Ether in your wallet)
 
 ```bash
 yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
