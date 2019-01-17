@@ -13,7 +13,7 @@ const main = async () => {
     const marketAddress = ShareTokens[i].market;
     const market = await IMarket.at(marketAddress);
     const numTicks = await market.getNumTicks();
-    const amount = web3.utils.toWei("1", "finney");
+    const amount = web3.utils.toWei("2", "finney");
     await veilCS.buyCompleteSets(
       AugurAddresses.Augur,
       AugurAddresses.Cash,

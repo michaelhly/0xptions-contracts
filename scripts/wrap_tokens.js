@@ -34,10 +34,15 @@ const main = async () => {
         console.log(err);
       }
     }
-    shareTokens.push(stringifyObject({
-      market: mktAddr,
-      tokens: tokens
-    }, { indent: " ", singleQoutes: false } );
+    shareTokens.push(
+      stringifyObject(
+        {
+          market: mktAddr,
+          tokens: tokens
+        },
+        { indent: " ", singleQoutes: false }
+      )
+    );
   }
 
   return shareTokens;
