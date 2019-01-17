@@ -84,7 +84,7 @@ const main = async () => {
   };
 
   const marketParams = {
-    endTime: currentBlock * Math.round(360 * BLOCKS_PER_DAY),
+    endTime: currentBlock + Math.round(365 * BLOCKS_PER_DAY),
     feePerEthInWei: web3.utils.toWei("0.01", "ether"),
     denominationToken: AugurAddresses.Cash,
     reporter: myAddress,
