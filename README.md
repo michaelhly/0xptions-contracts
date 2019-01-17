@@ -10,14 +10,15 @@ Compile contracts
 yarn truffle compile
 ```
 
-Get OptionShares on Rinkeby
+Get OptionShares on Rinkeby (make sure you have at least 0.2 Ether in your wallet)
 
 ```bash
 yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
 ```
 
-Deployed Contracts
-Network: Rinkeby
+**Deployed Contracts**
+<br />
+Network: Rinkeby 
 
 ```
 Running migration: 2_deploy_contracts.js
