@@ -27,25 +27,37 @@ yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
 ```
 
 ## Deployed Contracts
+
 Network: Rinkeby
 
 ```
+Running migration: 1_initial_migration.js
+  Deploying Migrations...
+  ... 0x6aba48830f5463d94ed372134fc032c24544f55da50a7540060f388db390ce6f
+  Migrations: 0xd21e42ee32524051e7b0c3a88ddb8c541b525f61
+Saving successful migration to network...
+  ... 0x6645cf785ea74552c53d10f9e53e2d8992b9ed134a505d1e6efffe60aa93086d
+Saving artifacts...
 Running migration: 2_deploy_contracts.js
   Running step...
   Deploying OptionsRegistry...
-  ... 0xd868b76363b1a99e1ddb9a6cfe16b74d5f13ddb94e5cdc729d5c62a855aba5bf
-  OptionsRegistry: 0xa6dc5ae4eda54f751256466cf39d0a1751c0ec40
+  ... 0x6a6817aa64b4d6c4a8358dfc26bc27c0b9a1090dceba8238c368131724b25e41
+  OptionsRegistry: 0x898d319dc8aa9bbcf116ffa4356d2e284383d25a
+Saving successful migration to network...
+  ... 0x1a28ae944082b39a7591bf67ed879331c7389efcddb50ce6e1a2b59e75b15dda
 Saving artifacts...
 Running migration: 3_deploy_veil_contracts.js
   Running step...
   Deploying VeilEther...
-  ... 0x7030868f6261f0125a0e1dd5f81a3a660fc0a72fe8595258cbffa0de6061441c
-  VeilEther: 0xc6a54cd11f6527c514539c1b3087636a21bf3bf5
+  ... 0x7bfa340a89490451d152588ac74e9e9f06118732adaa0d186f22db496ec33247
+  VeilEther: 0x98fb3afa6853434d75fcac8f8890b14f9af2a390
   Deploying VirtualAugurShareFactory...
-  ... 0x6e320fea68f9fb7866bdac79361a34e3f931432f27326d54f9327ca94b6da451
-  VirtualAugurShareFactory: 0x30b525d9d0e9225160f9e3119e186b05e66e8b02
+  ... 0xac7d025a7ca55c03cd55d782634372e59c03c55b388f50df92c5c2b0d13d1de4
+  VirtualAugurShareFactory: 0xbd9aa708eb3e01966b70a2973c23423768c50e97
   Deploying VeilCompleteSets...
-  ... 0xcbc534b1aaf1bcb26475174001f9ec93269aee379910e9c9985859c630afc3a7
-  VeilCompleteSets: 0x7caa8df93d6a6e45cff336d8f98c6b9f4893a901
+  ... 0x28c18dcfe139a76fe68d8a3624e4cbe442c552e0e7a7c2e7581d43be0d892527
+  VeilCompleteSets: 0x97c9666d161d20c92442f177d3d6ac381ea77756
+Saving successful migration to network...
+  ... 0x4a40ca1702c05720d5d929b59015bcd350a05ddd4f20d55a5eddb35255a57078
 Saving artifacts...
 ```
