@@ -90,7 +90,7 @@ const main = async () => {
     reporter: myAddress,
     minPrice: web3.utils.toWei("0", "ether"),
     maxPrice: web3.utils.toWei("1", "ether"),
-    numTicks: web3.utils.toWei("10", "milliether"),
+    numTicks: "100",
     topic: web3.utils.toHex("ETH call option"),
     description: marketDescription,
     extraInfo: JSON.stringify(marketInfo)
