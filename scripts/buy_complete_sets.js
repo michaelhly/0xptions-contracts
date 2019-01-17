@@ -5,7 +5,7 @@ const AugurContracts = require("augur-core-abi");
 const AugurAddresses = AugurContracts.addresses["4"];
 const VeilCompleteSets = artifacts.require("VeilCompleteSets");
 const IMarket = artifacts.require("IMarket");
-const ShareTokens = require("./shareTokens.json");
+const ShareTokens = require("../tokens/shareTokens.json");
 
 const main = async () => {
   const veilCS = await VeilCompleteSets.at(
