@@ -20,6 +20,12 @@ INFURA_API_KEY=...
 WALLET=...
 ```
 
+Get VeilEther on Rinkeby (make sure you have at least 0.1 Ether in your wallet)
+
+```bash
+yarn truffle exec ./scripts/get_veth.js --network rinkeby
+```
+
 Get OptionShares on Rinkeby (make sure you have at least 0.2 Ether in your wallet)
 
 ```bash
