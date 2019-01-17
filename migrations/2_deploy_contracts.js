@@ -1,7 +1,7 @@
-const OptionFactory = artifacts.require("OptionFactory");
+const OptionsRegistry = artifacts.require("OptionsRegistry");
 
 module.exports = function(deployer) {
   deployer.then(async () => {
-    await deployer.deploy(OptionFactory);
+    await deployer.deploy(OptionsRegistry);
   });
 };

@@ -1,5 +1,5 @@
 const IMarket = artifacts.require("IMarket");
-const OptionFactory = artifacts.require("OptionFactory");
+const OptionsRegistry = artifacts.require("OptionsRegistry");
 const VirtualAugurShareFactory = artifacts.require("VirtualAugurShareFactory");
 const ZrxERC20Proxy = "0x3e809c563c15a295e832e37053798ddc8d6c8dab";
 
@@ -8,9 +8,9 @@ const stringifyObject = require("stringify-object");
 
 const main = async () => {
   const shareTokens = [];
-  optionFactory = await OptionFactory.deployed();
+  OptionsRegistry = await OptionsRegistry.deployed();
   shareFactory = await VirtualAugurShareFactory.deployed();
-  const markets = await optionFactory.getMarkets();
+  const markets = await OptionsRegistry.getMarkets();
 
   for (let i = 0; i < markets.length; i++) {
     const mktAddr = markets[i];

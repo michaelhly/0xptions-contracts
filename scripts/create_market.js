@@ -7,8 +7,8 @@ const provider = new HDWalletProvider(
 const Web3 = require("web3");
 const web3 = new Web3(provider);
 
-const OptionFactory = require("../build/contracts/OptionFactory.json");
-const OptionFactoryAddress = OptionFactory.networks["4"].address;
+const OptionsRegistry = require("../build/contracts/OptionsRegistry.json");
+const OptionsRegistryAddress = OptionsRegistry.networks["4"].address;
 const AugurContracts = require("augur-core-abi");
 const AugurAddresses = AugurContracts.addresses["4"];
 
@@ -44,16 +44,16 @@ const main = async () => {
 
   await REP.methods.faucet(0).send({ from: myAddress });
   await REP.methods
-    .transfer(OptionFactoryAddress, noShowBond)
+    .transfer(OptionsRegistryAddress, noShowBond)
     .send({ from: myAddress });
 
   const FactoryInstance = new web3.eth.Contract(
-    OptionFactory.abi,
-    OptionFactoryAddress
+    OptionsRegistry.abi,
+    OptionsRegistryAddress
   );
 
   const allowance = await REP.methods
-    .allowance(OptionFactoryAddress, AugurAddresses.Universe)
+    .allowance(OptionsRegistryAddress, AugurAddresses.Universe)
     .call();
 
   if (parseInt(allowance) === 0) {
@@ -88,9 +88,9 @@ const main = async () => {
     feePerEthInWei: web3.utils.toWei("0.01", "ether"),
     denominationToken: AugurAddresses.Cash,
     reporter: myAddress,
-    minPrice: "0",
-    maxPrice: "1",
-    numTicks: "100",
+    minPrice: web3.utils.toWei("0", "ether"),
+    maxPrice: web3.utils.toWei("1", "ether"),
+    numTicks: web3.utils.toWei("10", "milliether"),
     topic: web3.utils.toHex("ETH call option"),
     description: marketDescription,
     extraInfo: JSON.stringify(marketInfo)

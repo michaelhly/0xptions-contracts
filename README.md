@@ -1,3 +1,5 @@
+#Setup
+
 Install packages using [yarn](https://yarnpkg.com/en/)
 
 ```bash
@@ -16,26 +18,26 @@ Get OptionShares on Rinkeby
 yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
 ```
 
-Deployed Contracts
+#Deployed Contracts
 Network: Rinkeby
 
 ```
 Running migration: 2_deploy_contracts.js
   Running step...
-  Deploying OptionFactory...
-  ... 0x94e7819ea0231af0fb62b073216061c05e1671555dde4e5d81387be62b4a7eb1
-  OptionFactory: 0x03aadf6fc0e2577a7889bcb306ec99f2f0a9861f
+  Deploying OptionsRegistry...
+  ... 0xd868b76363b1a99e1ddb9a6cfe16b74d5f13ddb94e5cdc729d5c62a855aba5bf
+  OptionsRegistry: 0xa6dc5ae4eda54f751256466cf39d0a1751c0ec40
 Saving artifacts...
 Running migration: 3_deploy_veil_contracts.js
   Running step...
   Deploying VeilEther...
-  ... 0xba728429b530d1313891277867a7d97ccf24f033173ef4808aee459bde622439
-  VeilEther: 0x0734920053cf4b68167e224f40fe733adb0039e3
+  ... 0x7030868f6261f0125a0e1dd5f81a3a660fc0a72fe8595258cbffa0de6061441c
+  VeilEther: 0xc6a54cd11f6527c514539c1b3087636a21bf3bf5
   Deploying VirtualAugurShareFactory...
-  ... 0xed8731692f1e3227c953cb94a796b6f6acc32dc0945e5601d52e87dfb342f966
-  VirtualAugurShareFactory: 0x4a62eabc214715b13e4f0bfb5a06384627781e74
+  ... 0x6e320fea68f9fb7866bdac79361a34e3f931432f27326d54f9327ca94b6da451
+  VirtualAugurShareFactory: 0x30b525d9d0e9225160f9e3119e186b05e66e8b02
   Deploying VeilCompleteSets...
-  ... 0xd138ac02556f341e0c22f81102d6b88e465459c186fa7ab89bec7eecb17add03
-  VeilCompleteSets: 0x11ab9ed823ed54d7780725af4c25a392e7450c8e
+  ... 0xcbc534b1aaf1bcb26475174001f9ec93269aee379910e9c9985859c630afc3a7
+  VeilCompleteSets: 0x7caa8df93d6a6e45cff336d8f98c6b9f4893a901
 Saving artifacts...
 ```

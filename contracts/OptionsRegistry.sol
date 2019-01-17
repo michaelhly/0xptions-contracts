@@ -5,7 +5,7 @@ import "augur-core/source/contracts/reporting/IUniverse.sol";
 import "augur-core/source/contracts/reporting/IMarket.sol";
 import "augur-core/source/contracts/trading/ICash.sol";
 
-contract OptionFactory {
+contract OptionsRegistry {
     event LogNewOptionMarket(
         address indexed market,
         uint256 strike,
@@ -84,13 +84,17 @@ contract OptionFactory {
     function approveUniverse(
         address universe
     ) public {
-        IUniverse(universe).getReputationToken().approve(universe, 2**256 - 1);
+        if(IUniverse(universe).getReputationToken().allowance(this, universe) != uint256(-1)){
+            IUniverse(universe).getReputationToken().approve(universe, uint256(-1));
+        }
     }
 
     function withdrawRep(
-        address repToken, 
-        uint256 value
+        address universe
     ) public {
-        ERC20(repToken).transfer(msg.sender, value);
+        uint256 balance = IUniverse(universe).getReputationToken().balanceOf(this);
+        if(balance > 0) {
+            IUniverse(universe).getReputationToken().transfer(msg.sender, balance);
+        }
     }
 }
