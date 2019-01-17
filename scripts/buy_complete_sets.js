@@ -9,7 +9,7 @@ const ShareTokens = require("./shareTokens.json");
 
 const main = async () => {
   const veilCS = await VeilCompleteSets.at(
-    "0x11ab9ed823ed54d7780725af4c25a392e7450c8e"
+    "0x1f615d9eacee6a326bcc95587395a878cfd848e4"
   );
   for (let i = 0; i < ShareTokens.length; i++) {
     const marketAddress = ShareTokens[i].market;
