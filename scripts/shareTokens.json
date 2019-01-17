@@ -1,19 +1,19 @@
 [
-  {
-    "market": "0x97cce3d7a77a14dcb0629cf5bc0963e229ca26e3",
-    "tokens": [
-      {
-        "name": "Virtual Augur Share",
-        "decimals": 18,
-        "symbol": "VShare",
-        "address": "0x407fda4e56f97863b5b2b901b4472a849b48902c"
-      },
-      {
-        "name": "Virtual Augur Share",
-        "decimals": 18,
-        "symbol": "VShare",
-        "address": "0xf3793159087c44e116aa48d5119cc9805b28efd7"
-      }
-    ]
-  }
+ {
+  market: "0xc466e71147a8981316f3e54feac72febd0314c74",
+  tokens: [
+   {
+    name: "Virtual Augur Share",
+    decimals: 18,
+    symbol: "VShare",
+    address: "0x8f35d7424a1e3e0cd5ec0c91f3bbee1fb4a440b6"
+   },
+   {
+    name: "Virtual Augur Share",
+    decimals: 18,
+    symbol: "VShare",
+    address: "0x3f89327eaad2eef7e224e195a593785d1812c576"
+   }
+  ]
+ }
 ]

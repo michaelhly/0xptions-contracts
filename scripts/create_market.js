@@ -13,7 +13,6 @@ const AugurContracts = require("augur-core-abi");
 const AugurAddresses = AugurContracts.addresses["4"];
 
 const BN = web3.utils.BN;
-const BLOCKS_PER_DAY = (60 / 14) * 60 * 24;
 const RINKEBY_WETH = "0xc778417e063141139fce010982780140aa0cd5ab";
 const myAddress = process.env.WALLET;
 
@@ -42,7 +41,10 @@ const main = async () => {
     repAddress
   );
 
-  await REP.methods.faucet(0).send({ from: myAddress });
+  const balance = await REP.methods.balanceOf(myAddress).call();
+  if (parseFloat(balance) < parseFloat(noShowBond)) {
+    await REP.methods.faucet(0).send({ from: myAddress });
+  }
   await REP.methods
     .transfer(OptionsRegistryAddress, noShowBond)
     .send({ from: myAddress });
@@ -63,7 +65,9 @@ const main = async () => {
   }
   console.log(allowance);
 
-  const currentBlock = await web3.eth.getBlockNumber();
+  const currentBlockInfo = await web3.eth.getBlock(
+    await web3.eth.getBlockNumber()
+  );
 
   const marketDescription =
     "ETH call option at $500 [expiring 1 year from market creation]";
@@ -72,19 +76,19 @@ const main = async () => {
     resolutionSource: "https://pro.coinbase.com/trade/ETH-USD",
     underlying: `${RINKEBY_WETH}`,
     longDescription:
-      "YES share represents European call option on ETH with strike price $500. \
-    Holder of NO share becomes option writer. \
-    At the expiration holder of YES share receives the amount by which ETH exceeds price of $500. \
-    Holder of NO share received $500 or 1 ETH, whichever is smaller. \
-    === Instruction for reporters === \
-    Let E be price of last trade on Coinbase Pro for pair ETH/USD in year 2018 (UTC). \
-    Calculate V = (E - $500) / E. If V < 0, resolve market as 0. \
+      "YES share represents European call option on ETH with strike price $500.\n \
+    Holder of NO share becomes option writer.\n \
+    At the expiration holder of YES share receives the amount by which ETH exceeds price of $500.\n \
+    Holder of NO share received $500 or 1 ETH, whichever is smaller.\n \
+    === Instruction for reporters ===\n \
+    Let E be price of last trade on Coinbase Pro for pair ETH/USD in year 2018 (UTC).\n \
+    Calculate V = (E - $500) / E. If V < 0, resolve market as 0.\n \
     Otherwise resolve market as V, rounded to the nearest market tick. \
-    In the unlikely event that V falls exactly in the middle between two market ticks, round up."
+    In the unlikely event that V falls exactly in the middle between two market ticks, round up.\n"
   };
 
   const marketParams = {
-    endTime: currentBlock + Math.round(365 * BLOCKS_PER_DAY),
+    endTime: currentBlockInfo.timestamp + 60 * 60 * 24 * 365,
     feePerEthInWei: web3.utils.toWei("0.01", "ether"),
     denominationToken: AugurAddresses.Cash,
     reporter: myAddress,
