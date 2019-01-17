@@ -8,9 +8,9 @@ const stringifyObject = require("stringify-object");
 
 const main = async () => {
   const shareTokens = [];
-  OptionsRegistry = await OptionsRegistry.deployed();
-  shareFactory = await VirtualAugurShareFactory.deployed();
-  const markets = await OptionsRegistry.getMarkets();
+  const optionsRegistry = await OptionsRegistry.deployed();
+  const shareFactory = await VirtualAugurShareFactory.deployed();
+  const markets = await optionsRegistry.getMarkets();
 
   for (let i = 0; i < markets.length; i++) {
     const mktAddr = markets[i];
@@ -34,15 +34,10 @@ const main = async () => {
         console.log(err);
       }
     }
-    shareTokens.push(
-      stringifyObject(
-        {
-          market: mktAddr,
-          tokens: tokens
-        },
-        { indent: " ", singleQoutes: false }
-      )
-    );
+    shareTokens.push({
+      market: mktAddr,
+      tokens: tokens
+    });
   }
 
   return shareTokens;
@@ -54,7 +49,7 @@ module.exports = cb => {
       console.log(res);
       fs.writeFile(
         "./scripts/shareTokens.json",
-        stringifyObject(res, { indent: " ", singleQoutes: false }),
+        stringifyObject(res, { indent: " ", singleQuotes: false }),
         err => {
           if (err) console.err(err);
           else console.log("Complete");
