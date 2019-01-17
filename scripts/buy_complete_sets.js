@@ -8,7 +8,9 @@ const IMarket = artifacts.require("IMarket");
 const ShareTokens = require("./shareTokens.json");
 
 const main = async () => {
-  const veilCS = await VeilCompleteSets.deployed();
+  const veilCS = await VeilCompleteSets.at(
+    "0x11ab9ed823ed54d7780725af4c25a392e7450c8e"
+  );
   for (let i = 0; i < ShareTokens.length; i++) {
     const marketAddress = ShareTokens[i].market;
     const market = await IMarket.at(marketAddress);
