@@ -1,3 +1,22 @@
+Install packages using [yarn](https://yarnpkg.com/en/)
+
+```bash
+yarn
+```
+
+Compile contracts
+
+```bash
+yarn truffle compile
+```
+
+Get OptionShares on Rinkeby
+
+```bash
+yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
+```
+
+Deployed Contracts
 Network: Rinkeby
 
 ```
@@ -19,22 +38,4 @@ Running migration: 3_deploy_veil_contracts.js
   ... 0xd138ac02556f341e0c22f81102d6b88e465459c186fa7ab89bec7eecb17add03
   VeilCompleteSets: 0x11ab9ed823ed54d7780725af4c25a392e7450c8e
 Saving artifacts...
-```
-
-Install packages using [yarn](https://yarnpkg.com/en/)
-
-```bash
-yarn
-```
-
-Compile contracts
-
-```bash
-yarn truffle compile
-```
-
-Get OptionShares on Rinkeby
-
-```bash
-yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
 ```
