@@ -12,6 +12,8 @@
     "dotenv": "^6.2.0",
     "ganache-cli": "^6.2.5",
     "openzeppelin-solidity": "^1.9.0",
+    "pretty-format": "^23.6.0",
+    "stringify-object": "^3.3.0",
     "truffle": "4.1.13",
     "truffle-hdwallet-provider": "^1.0.2",
     "veil-contracts": "^0.1.3",

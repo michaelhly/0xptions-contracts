@@ -3,20 +3,20 @@ Network: Rinkeby
 ```
 Running migration: 2_deploy_contracts.js
   Running step...
-  Replacing OptionFactory...
-  ... 0x9c439d3e1843d4ceee4f44326a6c8eb1f3b920d79f415a5585e97ab41f5ea258
-  OptionFactory: 0x18fdc90845840a6213e0dd622e2056b30315af8a
+  Deploying OptionFactory...
+  ... 0x94e7819ea0231af0fb62b073216061c05e1671555dde4e5d81387be62b4a7eb1
+  OptionFactory: 0x03aadf6fc0e2577a7889bcb306ec99f2f0a9861f
 Saving artifacts...
 Running migration: 3_deploy_veil_contracts.js
   Running step...
   Deploying VeilEther...
-  ... 0x57b51501887adaf400f2bcd49cb63caea212ed5d4a2a239484c8e4b099ed198a
-  VeilEther: 0x2b4730e077146c7aa7e6c15c20d12fbbfa6d468e
+  ... 0xba728429b530d1313891277867a7d97ccf24f033173ef4808aee459bde622439
+  VeilEther: 0x0734920053cf4b68167e224f40fe733adb0039e3
   Deploying VirtualAugurShareFactory...
-  ... 0x91d7ab8dc93ccea9ca9fa569e2f53738f49422e62dc7d0dce60da12d613a19a7
-  VirtualAugurShareFactory: 0xe309f30a5a6c5dfd210d1e778c9c86363795cf89
+  ... 0xed8731692f1e3227c953cb94a796b6f6acc32dc0945e5601d52e87dfb342f966
+  VirtualAugurShareFactory: 0x4a62eabc214715b13e4f0bfb5a06384627781e74
   Deploying VeilCompleteSets...
-  ... 0x48bdcbd13450ccb2402bb2b31379222616154d33061ef6e51fb38bdebe762b2a
-  VeilCompleteSets: 0x9ecf70b7919edcde6f323005ffc9cc9f583346fe
+  ... 0xd138ac02556f341e0c22f81102d6b88e465459c186fa7ab89bec7eecb17add03
+  VeilCompleteSets: 0x11ab9ed823ed54d7780725af4c25a392e7450c8e
 Saving artifacts...
 ```

@@ -18,7 +18,7 @@ contract OptionFactory {
     }
 
     mapping (address => OptionMarket) internal markets;
-    address[] allMarkets;
+    address[] internal allMarkets;
 
     function createOptionMarket(
         address universe,
@@ -75,6 +75,10 @@ contract OptionFactory {
             optionMarket.strike,
             optionMarket.expiry
         );
+    }
+
+    function getMarkets() public view returns (address[]) {
+        return allMarkets;
     }
 
     function approveUniverse(
