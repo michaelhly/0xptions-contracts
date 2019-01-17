@@ -1,4 +1,4 @@
-#Setup
+## Setup
 
 Install packages using [yarn](https://yarnpkg.com/en/)
 
@@ -26,7 +26,7 @@ Get OptionShares on Rinkeby (make sure you have at least 0.2 Ether in your walle
 yarn truffle exec ./scripts/buy_complete_sets.js --network rinkeby
 ```
 
-#Deployed Contracts
+## Deployed Contracts
 Network: Rinkeby
 
 ```
