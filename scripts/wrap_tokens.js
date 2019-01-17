@@ -48,7 +48,7 @@ module.exports = cb => {
     .then(res => {
       console.log(res);
       fs.writeFile(
-        "./shareTokens.json",
+        "./scripts/shareTokens.json",
         stringifyObject(res, { indent: " ", singleQoutes: false }),
         err => {
           if (err) console.err(err);
