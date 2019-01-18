@@ -6,10 +6,11 @@ Install packages using [yarn](https://yarnpkg.com/en/)
 yarn
 ```
 
-Compile contracts
+Migrate contracts locally
 
 ```bash
-yarn truffle compile
+yarn ganache-cli
+yarn truffle migrate
 ```
 
 Set environment variables
