@@ -1,12 +1,13 @@
 pragma solidity 0.4.24;
 
-import "augur-core/source/contracts/reporting/Universe.sol";
-import "augur-core/source/contracts/reporting/IUniverse.sol";
 import "augur-core/source/contracts/reporting/IMarket.sol";
+import "augur-core/source/contracts/reporting/IUniverse.sol";
+import "augur-core/source/contracts/reporting/Universe.sol";
 import "augur-core/source/contracts/trading/ICash.sol";
+import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import "veil-contracts/contracts/VirtualAugurShareFactory.sol";
 
-contract OptionsRegistry {
+contract OptionsRegistry is Pausable {
     VirtualAugurShareFactory shareFactory;
     address public shareTokenSpender;
 
@@ -15,15 +16,16 @@ contract OptionsRegistry {
         shareTokenSpender = _shareTokenSpender;
     }
 
-    event LogNewOptionMarket(
+    event LogNewOptionsMarket(
         address indexed market,
+        bytes32 topic,
         uint256 strike,
         uint256 expiry,
         address shortToken,
         address longToken
     );
 
-    struct OptionMarket {
+    struct OptionsMarket {
         bytes32 topic;
         uint256 strike;
         uint256 expiry;
@@ -31,14 +33,47 @@ contract OptionsRegistry {
         address longToken;
     }
 
-    mapping (address => OptionMarket) internal markets;
+    mapping (address => OptionsMarket) internal marketData;
+    mapping (bytes32 => address) internal topicToMarket;
     address[] internal allMarkets;
 
     function getMarkets() public view returns (address[]) {
         return allMarkets;
     }
 
-    function createOptionMarket(
+    function getMarket(address market)
+        public
+        view
+        returns (
+            bytes32 topic,
+            uint256 strike,
+            uint256 expiry,
+            address shortToken,
+            address longToken
+        )
+    {
+        topic  = marketData[market].topic;
+        strike = marketData[market].strike;
+        expiry = marketData[market].expiry;
+        shortToken = marketData[market].shortToken;
+        longToken  = marketData[market].longToken;
+    }
+
+    function getMarketByTopic(bytes32 topic)
+        public
+        view
+        returns (
+            address market,
+            address shortToken,
+            address longToken 
+        )
+    {
+        market = topicToMarket[topic];
+        shortToken = marketData[market].shortToken;
+        longToken  = marketData[market].longToken;
+    }
+
+    function createOptionsMarket(
         address universe,
         uint256 _strike,
         uint256 _expiry, 
@@ -53,6 +88,8 @@ contract OptionsRegistry {
         string  _extraInfo
     ) external 
       payable 
+      onlyPauser
+      whenNotPaused
       returns (IMarket _newMarket)
     {
         _newMarket = Universe(universe).createScalarMarket.value(msg.value)(
@@ -81,11 +118,12 @@ contract OptionsRegistry {
         bytes32 topic
     ) internal {
         require(strike > 0, "strike price must not be negative");
+
         address virtualShortToken;
         address virtualLongToken;
         (virtualShortToken, virtualLongToken) = wrapShareTokens(newMarket, shareTokenSpender);
 
-        OptionMarket memory optionMarket = OptionMarket(
+        OptionsMarket memory optionsMarket = OptionsMarket(
             topic,
             strike,
             newMarket.getEndTime(),
@@ -94,12 +132,14 @@ contract OptionsRegistry {
         );
 
         allMarkets.push(newMarket);
-        markets[newMarket] = optionMarket;
+        topicToMarket[topic] = newMarket;
+        marketData[newMarket] = optionsMarket;
 
-        emit LogNewOptionMarket(
+        emit LogNewOptionsMarket(
             address(newMarket),
-            optionMarket.strike,
-            optionMarket.expiry,
+            topic,
+            strike,
+            optionsMarket.expiry,
             virtualShortToken,
             virtualLongToken
         );
@@ -109,7 +149,6 @@ contract OptionsRegistry {
         internal
         returns (address virtualShortToken, address virtualLongToken)
     {
-        // Make sure VAS contracts can transfer Augur shares
         virtualShortToken = shareFactory.create(address(newMarket.getShareToken(0)), spender);
         virtualLongToken  = shareFactory.create(address(newMarket.getShareToken(1)), spender);
     }
@@ -124,7 +163,9 @@ contract OptionsRegistry {
 
     function withdrawRep(
         address universe
-    ) public {
+    ) external
+      onlyPauser
+    {
         uint256 balance = IUniverse(universe).getReputationToken().balanceOf(this);
         if(balance > 0) {
             IUniverse(universe).getReputationToken().transfer(msg.sender, balance);
