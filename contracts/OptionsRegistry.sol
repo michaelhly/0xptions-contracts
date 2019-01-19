@@ -1,26 +1,79 @@
 pragma solidity 0.4.24;
 
-import "augur-core/source/contracts/reporting/Universe.sol";
-import "augur-core/source/contracts/reporting/IUniverse.sol";
 import "augur-core/source/contracts/reporting/IMarket.sol";
+import "augur-core/source/contracts/reporting/IUniverse.sol";
+import "augur-core/source/contracts/reporting/Universe.sol";
 import "augur-core/source/contracts/trading/ICash.sol";
+import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
+import "veil-contracts/contracts/VirtualAugurShareFactory.sol";
 
-contract OptionsRegistry {
-    event LogNewOptionMarket(
-        address indexed market,
-        uint256 strike,
-        uint256 expiry
-    );
+contract OptionsRegistry is Pausable {
+    VirtualAugurShareFactory shareFactory;
+    address public shareTokenSpender;
 
-    struct OptionMarket {
-        uint256 strike;
-        uint256 expiry;
+    constructor(VirtualAugurShareFactory _shareFactory, address _shareTokenSpender) public {
+        shareFactory = _shareFactory;
+        shareTokenSpender = _shareTokenSpender;
     }
 
-    mapping (address => OptionMarket) internal markets;
+    event LogNewOptionsMarket(
+        address indexed market,
+        bytes32 topic,
+        uint256 strike,
+        uint256 expiry,
+        address shortToken,
+        address longToken
+    );
+
+    struct OptionsMarket {
+        bytes32 topic;
+        uint256 strike;
+        uint256 expiry;
+        address shortToken;
+        address longToken;
+    }
+
+    mapping (address => OptionsMarket) internal marketData;
+    mapping (bytes32 => address) internal topicToMarket;
     address[] internal allMarkets;
 
-    function createOptionMarket(
+    function getMarkets() public view returns (address[]) {
+        return allMarkets;
+    }
+
+    function getMarket(address market)
+        public
+        view
+        returns (
+            bytes32 topic,
+            uint256 strike,
+            uint256 expiry,
+            address shortToken,
+            address longToken
+        )
+    {
+        topic  = marketData[market].topic;
+        strike = marketData[market].strike;
+        expiry = marketData[market].expiry;
+        shortToken = marketData[market].shortToken;
+        longToken  = marketData[market].longToken;
+    }
+
+    function getMarketByTopic(bytes32 topic)
+        public
+        view
+        returns (
+            address market,
+            address shortToken,
+            address longToken 
+        )
+    {
+        market = topicToMarket[topic];
+        shortToken = marketData[market].shortToken;
+        longToken  = marketData[market].longToken;
+    }
+
+    function createOptionsMarket(
         address universe,
         uint256 _strike,
         uint256 _expiry, 
@@ -35,6 +88,8 @@ contract OptionsRegistry {
         string  _extraInfo
     ) external 
       payable 
+      onlyPauser
+      whenNotPaused
       returns (IMarket _newMarket)
     {
         _newMarket = Universe(universe).createScalarMarket.value(msg.value)(
@@ -49,36 +104,53 @@ contract OptionsRegistry {
             _description, 
             _extraInfo
         );
-        saveMarket(
+
+        registerMarket(
             _newMarket,
             _strike,
-            _expiry
+            _topic
         );
-        return _newMarket;
     }
 
-    function saveMarket (
-        address newMarket, 
+    function registerMarket (
+        IMarket newMarket,
         uint256 strike,
-        uint256 expiry
+        bytes32 topic
     ) internal {
-        OptionMarket memory optionMarket = OptionMarket(
+        require(strike > 0, "strike price must not be negative");
+
+        address virtualShortToken;
+        address virtualLongToken;
+        (virtualShortToken, virtualLongToken) = wrapShareTokens(newMarket, shareTokenSpender);
+
+        OptionsMarket memory optionsMarket = OptionsMarket(
+            topic,
             strike,
-            expiry
+            newMarket.getEndTime(),
+            virtualShortToken,
+            virtualLongToken
         );
 
         allMarkets.push(newMarket);
-        markets[newMarket] = optionMarket;
+        topicToMarket[topic] = newMarket;
+        marketData[newMarket] = optionsMarket;
 
-        emit LogNewOptionMarket(
+        emit LogNewOptionsMarket(
             address(newMarket),
-            optionMarket.strike,
-            optionMarket.expiry
+            topic,
+            strike,
+            optionsMarket.expiry,
+            virtualShortToken,
+            virtualLongToken
         );
     }
 
-    function getMarkets() public view returns (address[]) {
-        return allMarkets;
+    function wrapShareTokens(IMarket newMarket, address spender)
+        internal
+        returns (address virtualShortToken, address virtualLongToken)
+    {
+        virtualShortToken = shareFactory.create(address(newMarket.getShareToken(0)), spender);
+        virtualLongToken  = shareFactory.create(address(newMarket.getShareToken(1)), spender);
     }
 
     function approveUniverse(
@@ -91,7 +163,9 @@ contract OptionsRegistry {
 
     function withdrawRep(
         address universe
-    ) public {
+    ) external
+      onlyPauser
+    {
         uint256 balance = IUniverse(universe).getReputationToken().balanceOf(this);
         if(balance > 0) {
             IUniverse(universe).getReputationToken().transfer(msg.sender, balance);

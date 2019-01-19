@@ -3,26 +3,32 @@ const web3 = new Web3(Web3.givenProvider);
 
 const AugurContracts = require("augur-core-abi");
 const AugurAddresses = AugurContracts.addresses["4"];
-const VeilCompleteSets = artifacts.require("VeilCompleteSets");
 const IMarket = artifacts.require("IMarket");
-const ShareTokens = require("../tokens/shareTokens.json");
+const OptionsRegistry = artifacts.require("OptionsRegistry");
+const VeilCompleteSets = artifacts.require("VeilCompleteSets");
 
 const main = async () => {
   const veilCS = await VeilCompleteSets.at(
-    "0x1f615d9eacee6a326bcc95587395a878cfd848e4"
+    "0x5fa2fe3ac5f6b0b2a06a0c1c46cb8b2823caa24a"
   );
-  for (let i = 0; i < ShareTokens.length; i++) {
-    const marketAddress = ShareTokens[i].market;
-    const market = await IMarket.at(marketAddress);
+  const optionsRegistry = await OptionsRegistry.at(
+    "0xa41fa3857739509a295351ef6ad8b0cf16753e9e"
+  );
+  const markets = await optionsRegistry.getMarkets();
+  for (let i = 0; i < markets.length; i++) {
+    const marketInfo = await optionsRegistry.getMarket(markets[i]);
+    const longToken = marketInfo[4];
+    const shortToken = marketInfo[3];
+    const market = await IMarket.at(markets[i]);
     const numTicks = await market.getNumTicks();
     const amount = web3.utils.toWei("2", "finney");
     await veilCS.buyCompleteSets(
       AugurAddresses.Augur,
       AugurAddresses.Cash,
       AugurAddresses.CompleteSets,
-      marketAddress,
-      ShareTokens[i].tokens[1].address,
-      ShareTokens[i].tokens[0].address,
+      markets[i],
+      longToken,
+      shortToken,
       amount,
       {
         from: process.env.WALLET,
@@ -30,6 +36,7 @@ const main = async () => {
       }
     );
   }
+  console.log("Purchase completed!");
 };
 
 module.exports = cb => {
