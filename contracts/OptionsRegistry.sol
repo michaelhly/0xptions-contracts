@@ -4,21 +4,39 @@ import "augur-core/source/contracts/reporting/Universe.sol";
 import "augur-core/source/contracts/reporting/IUniverse.sol";
 import "augur-core/source/contracts/reporting/IMarket.sol";
 import "augur-core/source/contracts/trading/ICash.sol";
+import "veil-contracts/contracts/VirtualAugurShareFactory.sol";
 
 contract OptionsRegistry {
+    VirtualAugurShareFactory shareFactory;
+    address public shareTokenSpender;
+
+    constructor(VirtualAugurShareFactory _shareFactory, address _shareTokenSpender) public {
+        shareFactory = _shareFactory;
+        shareTokenSpender = _shareTokenSpender;
+    }
+
     event LogNewOptionMarket(
         address indexed market,
         uint256 strike,
-        uint256 expiry
+        uint256 expiry,
+        address shortToken,
+        address longToken
     );
 
     struct OptionMarket {
+        bytes32 topic;
         uint256 strike;
         uint256 expiry;
+        address shortToken;
+        address longToken;
     }
 
     mapping (address => OptionMarket) internal markets;
     address[] internal allMarkets;
+
+    function getMarkets() public view returns (address[]) {
+        return allMarkets;
+    }
 
     function createOptionMarket(
         address universe,
@@ -49,22 +67,30 @@ contract OptionsRegistry {
             _description, 
             _extraInfo
         );
-        saveMarket(
+
+        registerMarket(
             _newMarket,
             _strike,
-            _expiry
+            _topic
         );
-        return _newMarket;
     }
 
-    function saveMarket (
-        address newMarket, 
+    function registerMarket (
+        IMarket newMarket,
         uint256 strike,
-        uint256 expiry
+        bytes32 topic
     ) internal {
+        require(strike > 0, "strike price must not be negative");
+        address virtualShortToken;
+        address virtualLongToken;
+        (virtualShortToken, virtualLongToken) = wrapShareTokens(newMarket, shareTokenSpender);
+
         OptionMarket memory optionMarket = OptionMarket(
+            topic,
             strike,
-            expiry
+            newMarket.getEndTime(),
+            virtualShortToken,
+            virtualLongToken
         );
 
         allMarkets.push(newMarket);
@@ -73,12 +99,19 @@ contract OptionsRegistry {
         emit LogNewOptionMarket(
             address(newMarket),
             optionMarket.strike,
-            optionMarket.expiry
+            optionMarket.expiry,
+            virtualShortToken,
+            virtualLongToken
         );
     }
 
-    function getMarkets() public view returns (address[]) {
-        return allMarkets;
+    function wrapShareTokens(IMarket newMarket, address spender)
+        internal
+        returns (address virtualShortToken, address virtualLongToken)
+    {
+        // Make sure VAS contracts can transfer Augur shares
+        virtualShortToken = shareFactory.create(address(newMarket.getShareToken(0)), spender);
+        virtualLongToken  = shareFactory.create(address(newMarket.getShareToken(1)), spender);
     }
 
     function approveUniverse(

@@ -6011,10 +6011,10 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-openzeppelin-solidity@^1.9.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-1.12.0.tgz#7b9c55975e73370d4541e3442b30cb3d91ac973a"
-  integrity sha512-WlorzMXIIurugiSdw121RVD5qA3EfSI7GybTn+/Du0mPNgairjt29NpVTAaH8eLjAeAwlw46y7uQKy0NYem/gA==
+openzeppelin-solidity@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-2.0.0.tgz#b45dddbdae090f89577598c1a7e7518df61b7ba2"
+  integrity sha512-SolpxQFArtiYnlSNg3dZ9sz0WVlKtPqSOcJkXRllaZp4+Lpfqz3vxF0yoh7g75TszKPyadqoJmU7+GM/vwh9SA==
 
 optimist@^0.6.1:
   version "0.6.1"
@@ -8308,10 +8308,9 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-veil-contracts@^0.1.3:
+"veil-contracts@https://github.com/veilco/veil-contracts":
   version "0.1.3"
-  resolved "https://registry.yarnpkg.com/veil-contracts/-/veil-contracts-0.1.3.tgz#d54a3f313f33e4fc869ba10c335783759b5a7af4"
-  integrity sha512-DGec8uR8Fc6LGaomeqbAEqwE5DkmIlAm8B1fntbN1Skri5W7IbjUxQ3A9IGr0TR4jeDrv5BSRw3a3uVnQTw//Q==
+  resolved "https://github.com/veilco/veil-contracts#fa810b922508aaaa637c541e37528c1af78e647b"
   dependencies:
     solc "0.4.24"
 
