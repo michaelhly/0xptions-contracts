@@ -6,11 +6,10 @@ Install packages using [yarn](https://yarnpkg.com/en/)
 yarn
 ```
 
-Migrate contracts locally
+Comple contracts
 
 ```bash
-yarn ganache-cli
-yarn truffle migrate
+yarn truffle compile
 ```
 
 Set environment variables
@@ -39,21 +38,20 @@ Network: Rinkeby
 
 ```
 Running migration: 2_deploy_contracts.js
-  Running step...
-  Replacing OptionsRegistry...
-  ... 0xee0d484cf892107e5f9852adcc44d3e2c20627669cd3040c99d50d1f1827f8c4
-  OptionsRegistry: 0x71b628e812784fb5e8a69eb53e42c4588a8ac1e1
+  Deploying VirtualAugurShareFactory...
+  ... 0x895519adbf87d26eda9757d38efe9b8e1d47f3201c2b95e1ae740ecbed63099a
+  VirtualAugurShareFactory: 0xbe21029b50220f221a9aa138cfa84c361673d9ad
+  Deploying OptionsRegistry...
+  ... 0x258aa5bec988c9d77c923d600535aaca3f52ed37461c94aae08c58df69f68fe7
+  OptionsRegistry: 0xa41fa3857739509a295351ef6ad8b0cf16753e9e
 Saving artifacts...
 Running migration: 3_deploy_veil_contracts.js
   Running step...
   Deploying VeilEther...
-  ... 0x6b50466485db4e2bf82ece80aeeb00385f2deb07e2cd9d0304d6150593580660
-  VeilEther: 0x93795593475e228fc65d7cd5eb5cf72bd255e705
-  Deploying VirtualAugurShareFactory...
-  ... 0xabbb3912dd935be4666f89ff16f36d89712ff3d64a94f18c128826e7c92195f4
-  VirtualAugurShareFactory: 0xf2caf29ed92c2e9317fbe0e221a9c7817247bed1
+  ... 0x4251a1aa7dc2d31c8c7b95a7d12298fe3f8cec616ddfca333331aa80a78a9ec7
+  VeilEther: 0x9c610ad5e7aedc4cb56523277d1122e6110aa958
   Deploying VeilCompleteSets...
-  ... 0xfb02d92271e45b32b233b9de08fcd3bd33ed5427fb77cc505ce37fbff6f4a46a
-  VeilCompleteSets: 0x1f615d9eacee6a326bcc95587395a878cfd848e4
+  ... 0x9b8e8084cffb87a711bb64748f89ebf225c537c7ea5dbb168bd7b766b09ee50f
+  VeilCompleteSets: 0x5fa2fe3ac5f6b0b2a06a0c1c46cb8b2823caa24a
 Saving artifacts...
 ```
