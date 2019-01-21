@@ -102,7 +102,7 @@ const main = async () => {
 
   try {
     var createMarket = await FactoryInstance.methods
-      .createOptionsMarket(
+      .createCallMarket(
         AugurAddresses.Universe,
         new BN(500).toString(),
         marketParams.endTime,

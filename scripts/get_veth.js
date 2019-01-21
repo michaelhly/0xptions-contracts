@@ -20,7 +20,7 @@ const ZrxERC20Proxy = {
 
 const main = async () => {
   console.log(network);
-  const veth = await VeilEther.at("0x9c610ad5e7aedc4cb56523277d1122e6110aa958");
+  const veth = await VeilEther.at("0xc4abc01578139e2105d9c9eba0b0aa6f6a60d082");
   const max = 2 ** 53 - 1;
   await veth.depositAndApprove(ZrxERC20Proxy.rinkeby.address, max.toString(), {
     from: process.env.WALLET,

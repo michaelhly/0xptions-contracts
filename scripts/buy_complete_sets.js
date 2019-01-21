@@ -9,10 +9,10 @@ const VeilCompleteSets = artifacts.require("VeilCompleteSets");
 
 const main = async () => {
   const veilCS = await VeilCompleteSets.at(
-    "0x5fa2fe3ac5f6b0b2a06a0c1c46cb8b2823caa24a"
+    "0x26ee4b7de3b6be1fab4280cb35f3f4067a32a625"
   );
   const optionsRegistry = await OptionsRegistry.at(
-    "0xa41fa3857739509a295351ef6ad8b0cf16753e9e"
+    "0xa5b14070af70f56fc0b3216045e53d3224bb0172"
   );
   const markets = await optionsRegistry.getMarkets();
   for (let i = 0; i < markets.length; i++) {
