@@ -16,8 +16,14 @@ contract OptionsRegistry is Pausable {
         shareTokenSpender = _shareTokenSpender;
     }
 
+    enum Option {
+        CALL,
+        PUT
+    }
+
     event LogNewOptionsMarket(
         address indexed market,
+        Option  optionType,
         bytes32 topic,
         uint256 strike,
         uint256 expiry,
@@ -26,6 +32,7 @@ contract OptionsRegistry is Pausable {
     );
 
     struct OptionsMarket {
+        Option  optionType;
         bytes32 topic;
         uint256 strike;
         uint256 expiry;
@@ -49,14 +56,16 @@ contract OptionsRegistry is Pausable {
             uint256 strike,
             uint256 expiry,
             address shortToken,
-            address longToken
+            address longToken,
+            Option  optionType
         )
-    {
+    { 
         topic  = marketData[market].topic;
         strike = marketData[market].strike;
         expiry = marketData[market].expiry;
         shortToken = marketData[market].shortToken;
         longToken  = marketData[market].longToken;
+        optionType = marketData[market].optionType;
     }
 
     function getMarketByTopic(bytes32 topic)
@@ -64,16 +73,22 @@ contract OptionsRegistry is Pausable {
         view
         returns (
             address market,
+            uint256 strike,
+            uint256 expiry,
             address shortToken,
-            address longToken 
+            address longToken,
+            Option  optionType 
         )
     {
         market = topicToMarket[topic];
+        strike = marketData[market].strike;
+        expiry = marketData[market].expiry;
         shortToken = marketData[market].shortToken;
         longToken  = marketData[market].longToken;
+        optionType = marketData[market].optionType;
     }
 
-    function createOptionsMarket(
+    function createCallMarket(
         address universe,
         uint256 _strike,
         uint256 _expiry, 
@@ -108,6 +123,47 @@ contract OptionsRegistry is Pausable {
         registerMarket(
             _newMarket,
             _strike,
+            Option.CALL,
+            _topic
+        );
+    }
+
+    function createPutMarket(
+        address universe,
+        uint256 _strike,
+        uint256 _expiry, 
+        uint256 _feePerEthInWei, 
+        ICash   _denominationToken,
+        address _designatedReporterAddress, 
+        int256  _minPrice, 
+        int256  _maxPrice, 
+        uint256 _numTicks, 
+        bytes32 _topic, 
+        string  _description, 
+        string  _extraInfo
+    ) external 
+      payable 
+      onlyPauser
+      whenNotPaused
+      returns (IMarket _newMarket)
+    {
+        _newMarket = Universe(universe).createScalarMarket.value(msg.value)(
+            _expiry, 
+            _feePerEthInWei,
+            _denominationToken,
+            _designatedReporterAddress, 
+            _minPrice, 
+            _maxPrice, 
+            _numTicks, 
+            _topic, 
+            _description, 
+            _extraInfo
+        );
+
+        registerMarket(
+            _newMarket,
+            _strike,
+            Option.PUT,
             _topic
         );
     }
@@ -115,6 +171,7 @@ contract OptionsRegistry is Pausable {
     function registerMarket (
         IMarket newMarket,
         uint256 strike,
+        Option optionType,
         bytes32 topic
     ) internal {
         require(strike > 0, "strike price must not be negative");
@@ -124,6 +181,7 @@ contract OptionsRegistry is Pausable {
         (virtualShortToken, virtualLongToken) = wrapShareTokens(newMarket, shareTokenSpender);
 
         OptionsMarket memory optionsMarket = OptionsMarket(
+            optionType,
             topic,
             strike,
             newMarket.getEndTime(),
@@ -137,6 +195,7 @@ contract OptionsRegistry is Pausable {
 
         emit LogNewOptionsMarket(
             address(newMarket),
+            optionType,
             topic,
             strike,
             optionsMarket.expiry,
