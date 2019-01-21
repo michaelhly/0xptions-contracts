@@ -39,19 +39,19 @@ Network: Rinkeby
 ```
 Running migration: 2_deploy_contracts.js
   Deploying VirtualAugurShareFactory...
-  ... 0x895519adbf87d26eda9757d38efe9b8e1d47f3201c2b95e1ae740ecbed63099a
-  VirtualAugurShareFactory: 0xbe21029b50220f221a9aa138cfa84c361673d9ad
+  ... 0x89de5858b5adaecf11d41b5e38ad3d9d7f0134e73bf542f0142f04e3193e682f
+  VirtualAugurShareFactory: 0x27eb89ec9726c97c9bb2f0c6a205de39de2bd5c0
   Deploying OptionsRegistry...
-  ... 0x258aa5bec988c9d77c923d600535aaca3f52ed37461c94aae08c58df69f68fe7
-  OptionsRegistry: 0xa41fa3857739509a295351ef6ad8b0cf16753e9e
+  ... 0xf68bc7253cb589d20abfc6763abf5902efa1c5a3d4ce9277737d25decdea3fcd
+  OptionsRegistry: 0xa5b14070af70f56fc0b3216045e53d3224bb0172
 Saving artifacts...
 Running migration: 3_deploy_veil_contracts.js
   Running step...
   Deploying VeilEther...
-  ... 0x4251a1aa7dc2d31c8c7b95a7d12298fe3f8cec616ddfca333331aa80a78a9ec7
-  VeilEther: 0x9c610ad5e7aedc4cb56523277d1122e6110aa958
+  ... 0xe38d20f9069f75baa02848b946b65c2f4ce4e49ad639c6c9d38a2724d7324996
+  VeilEther: 0xc4abc01578139e2105d9c9eba0b0aa6f6a60d082
   Deploying VeilCompleteSets...
-  ... 0x9b8e8084cffb87a711bb64748f89ebf225c537c7ea5dbb168bd7b766b09ee50f
-  VeilCompleteSets: 0x5fa2fe3ac5f6b0b2a06a0c1c46cb8b2823caa24a
+  ... 0xb840527e802a8455c692587ee0b3a20db9eaa3be3e3643e5036be23dcfea4b89
+  VeilCompleteSets: 0x26ee4b7de3b6be1fab4280cb35f3f4067a32a625
 Saving artifacts...
 ```
