@@ -46,8 +46,26 @@ contract OptionsRegistry is Pausable {
     mapping (bytes32 => address) internal topicToMarket;
     address[] internal allMarkets;
 
-    function getMarkets() public view returns (address[]) {
+    function getMarketsUnbounded() public view returns (address[]) {
         return allMarkets;
+    }
+
+    function getMarketsBounded(uint256 cursor, uint256 howMany)
+        public
+        view
+        returns (address[] values, uint256 newCursor)
+    {
+        uint256 length = howMany;
+        if (length > allMarkets.length - cursor) {
+            length = allMarkets.length - cursor;
+        }
+
+        values = new address[](length);
+        for (uint256 i = 0; i < length; i++) {
+            values[i] = allMarkets[cursor + i];
+        }
+
+        return (values, cursor + length);
     }
 
     function getMarket(address market)
@@ -57,6 +75,7 @@ contract OptionsRegistry is Pausable {
             bytes32 topic,
             uint256 strike,
             uint256 expiry,
+            uint256 openInterest,
             address shortToken,
             address longToken,
             Option  optionType
@@ -68,6 +87,7 @@ contract OptionsRegistry is Pausable {
         shortToken = marketData[market].shortToken;
         longToken  = marketData[market].longToken;
         optionType = marketData[market].optionType;
+        openInterest = getMarketOpenInterest(market);
     }
 
     function getMarketByTopic(bytes32 topic)
@@ -77,6 +97,7 @@ contract OptionsRegistry is Pausable {
             address market,
             uint256 strike,
             uint256 expiry,
+            uint256 openInterest,
             address shortToken,
             address longToken,
             Option  optionType 
@@ -88,6 +109,7 @@ contract OptionsRegistry is Pausable {
         shortToken = marketData[market].shortToken;
         longToken  = marketData[market].longToken;
         optionType = marketData[market].optionType;
+        openInterest = getMarketOpenInterest(market);
     }
 
     function getMarketOpenInterest(address market) 
