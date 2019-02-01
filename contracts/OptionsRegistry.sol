@@ -5,9 +5,11 @@ import "augur-core/source/contracts/reporting/IUniverse.sol";
 import "augur-core/source/contracts/reporting/Universe.sol";
 import "augur-core/source/contracts/trading/ICash.sol";
 import "openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "veil-contracts/contracts/VirtualAugurShareFactory.sol";
 
 contract OptionsRegistry is Pausable {
+    using SafeMath for uint256;
     VirtualAugurShareFactory shareFactory;
     address public shareTokenSpender;
 
@@ -86,6 +88,14 @@ contract OptionsRegistry is Pausable {
         shortToken = marketData[market].shortToken;
         longToken  = marketData[market].longToken;
         optionType = marketData[market].optionType;
+    }
+
+    function getMarketOpenInterest(address market) 
+        public 
+        view 
+        returns (uint256) 
+    {
+        return IMarket(market).getShareToken(0).totalSupply().mul(IMarket(market).getNumTicks());
     }
 
     function createCallMarket(
