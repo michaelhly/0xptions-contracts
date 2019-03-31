@@ -38,3 +38,4 @@ flattened/*.sol
 
 # Other
 .DS_Store
+0x_ganache_snapshot
