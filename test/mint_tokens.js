@@ -17,7 +17,7 @@ contract("Mint Sample Tokens", accounts => {
       await veilEther
         .depositAndApprove(ERC20Proxy, "1000000000000000000000000", {
           from: accounts[i],
-          value: "1000000000000000000"
+          value: "10000000000000000000"
         })
         .then(async () => {
           const balance = await veilEther.balanceOf(accounts[i]);
