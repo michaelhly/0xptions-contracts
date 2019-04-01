@@ -8,7 +8,7 @@
     "migrate": "yarn truffle migrate && yarn mint_tokens && yarn truffle network",
     "mint_tokens": "yarn truffle test ./test/mint_tokens.js",
     "download_snapshot": "rm -rf 0x_ganache_snapshot && cross-env-shell download --extract --strip 1 --out 0x_ganache_snapshot ${npm_package_config_snapshot_url}",
-    "ganache": "cross-env ganache-cli --noVMErrorsOnRPCResponse --gasLimit 10000000  --db 0x_ganache_snapshot  -p 8545 --networkId 50 -m \"concert load couple harbor equip island argue ramp clarify fence smart topic\""
+    "ganache-cli": "cross-env ganache-cli --noVMErrorsOnRPCResponse --gasLimit 10000000  --db 0x_ganache_snapshot  -p 8545 --networkId 50 -m \"concert load couple harbor equip island argue ramp clarify fence smart topic\""
   },
   "config": {
     "snapshot_url": "https://s3.amazonaws.com/testrpc-shapshots/965d6098294beb22292090c461151274ee6f9a26.zip"
