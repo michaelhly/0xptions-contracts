@@ -1,7 +1,7 @@
 import "openzeppelin-solidity/contracts/access/roles/MinterRole.sol";
 import "veil-contracts/contracts/UnlimitedAllowanceToken.sol";
 
-contract SampleToken is UnlimitedAllowanceToken, MinterRole {
+contract SampleToken2 is UnlimitedAllowanceToken, MinterRole {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
