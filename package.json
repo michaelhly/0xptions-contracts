@@ -5,7 +5,8 @@
   "repository": "https://github.com/michaelhly/0xptions-contracts.git",
   "license": "MIT",
   "scripts": {
-    "migrate": "truffle migrate && truffle network",
+    "migrate": "rm -rf build && yarn truffle migrate && yarn mint_tokens && yarn truffle network",
+    "mint_tokens": "yarn truffle test ./test/mint_tokens.js",
     "download_snapshot": "rm -rf 0x_ganache_snapshot && cross-env-shell download --extract --strip 1 --out 0x_ganache_snapshot ${npm_package_config_snapshot_url}",
     "ganache": "cross-env ganache-cli --noVMErrorsOnRPCResponse --gasLimit 10000000  --db 0x_ganache_snapshot  -p 8545 --networkId 50 -m \"concert load couple harbor equip island argue ramp clarify fence smart topic\""
   },
@@ -22,10 +23,9 @@
     "download-cli": "^1.1.1",
     "ganache-cli": "^6.2.5",
     "openzeppelin-solidity": "2.0.0",
-    "stringify-object": "^3.3.0",
     "truffle": "4.1.13",
     "truffle-hdwallet-provider": "^1.0.2",
-    "veil-contracts": "https://github.com/veilco/veil-contracts",
+    "veil-contracts": "^0.1.5",
     "web3": "^1.0.0-beta.37"
   }
 }

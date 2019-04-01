@@ -12,7 +12,7 @@ const ZrxERC20Proxy = {
     address: "0xf1ec01d6236d3cd881a0bf0130ea25fe4234003e"
   },
   development: {
-    address: "0x0000000000000000000000000000000000000000"
+    address: "0x1dc4c1cefef38a777b15aa20260a54e584b16c48"
   }
 };
 
